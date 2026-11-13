@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VÉRIDIAN // Zinc Atelier</title>
-  <meta name="description" content="Architectural biophilic e-commerce store with high contrast zinc-green and white design.">
+  <title>VÉRIDIAN — Objects for a Greener Home</title>
+  <meta name="description" content="Thoughtfully made planters, lighting, and botanical objects for a calmer home.">
 
   <!-- Google Fonts: Syne & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +23,7 @@
 
   <!-- Top Announcement Bar -->
   <div class="announcement-bar py-1 px-3 text-center text-white">
-    <span class="small font-mono">COMPLIMENTARY GLOBAL COURIER FREIGHT ON ORDERS ABOVE $150 · USE CODE <strong>ZINC15</strong> FOR 15% OFF</span>
+    <span class="small font-mono">FREE SHIPPING ON ORDERS OVER $150 · USE CODE <strong>ZINC15</strong> FOR 15% OFF</span>
   </div>
 
   <!-- Navbar (Top Bar Contract) -->
@@ -49,7 +49,7 @@
             <a class="nav-link text-zinc-dark fw-medium" href="#craft">Craftsmanship</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-zinc-dark fw-medium" href="#reviews">Patron Reviews</a>
+            <a class="nav-link text-zinc-dark fw-medium" href="#reviews">Reviews</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-zinc-dark fw-medium" href="#philosophy">Philosophy</a>
@@ -80,19 +80,19 @@
     <div class="container-fluid px-lg-5 position-relative z-2">
       <div class="row align-items-center g-5 py-4">
         <div class="col-lg-7">
-          <div class="meta-label text-zinc-mint mb-3">BIOPHILIC ARCHITECTURAL ATELIER · 2026 EDITION</div>
+          <div class="meta-label text-zinc-mint mb-3">DESIGNED WITH NATURE · MADE TO LAST</div>
           <h1 class="display-3 fw-bold font-display text-white mb-4 hero-headline text-balance">
-            Machined Zinc & Living Botanicals in Striking Contrast.
+            Bring a little more nature home.
           </h1>
           <p class="lead text-zinc-100 mb-4 col-xl-10 opacity-90">
-            A radical departure from conventional homeware. We cold-patinate heavy aerospace zinc alloy into monolithic vessels, circadian luminaires, and preserved moss biospheres designed for purist spaces.
+            Thoughtful planters, warm lighting, and botanical details—made with honest materials for the spaces you live in every day.
           </p>
           <div class="d-flex flex-wrap gap-3 pt-2">
             <a href="#collection" class="btn btn-white btn-lg px-4 shadow-sm fw-semibold">
-              Explore Collection
+              Shop the collection
             </a>
             <button class="btn btn-outline-light btn-lg px-4" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
-              Open Shopping Bag
+              View your bag
             </button>
           </div>
 
@@ -100,15 +100,15 @@
           <div class="row g-4 mt-4 pt-3 border-top border-zinc-translucent">
             <div class="col-4">
               <div class="fs-4 fw-bold font-display tabular-nums text-white">99.4%</div>
-              <div class="text-zinc-200 small">Purity Zinc Alloy</div>
+              <div class="text-zinc-200 small">Quality materials</div>
             </div>
             <div class="col-4">
               <div class="fs-4 fw-bold font-display tabular-nums text-white">4.92 / 5</div>
-              <div class="text-zinc-200 small">Patron Rating</div>
+              <div class="text-zinc-200 small">Customer rating</div>
             </div>
             <div class="col-4">
               <div class="fs-4 fw-bold font-display tabular-nums text-white">0% Plastic</div>
-              <div class="text-zinc-200 small">Molded Pulp Packaging</div>
+              <div class="text-zinc-200 small">Plastic-free packaging</div>
             </div>
           </div>
         </div>
@@ -125,8 +125,8 @@
                 <path d="M120 360C160 330 200 340 250 340C300 340 340 330 380 360" stroke="#71c39c" stroke-width="3" stroke-linecap="round"/>
               </svg>
               <div class="hero-img-badge position-absolute bottom-0 start-0 p-3 bg-white m-3 rounded shadow-sm text-dark">
-                <div class="fw-bold small text-zinc-green">Atelier Series 01</div>
-                <div class="text-muted" style="font-size: 0.75rem;">Cold-Patinated Monoliths</div>
+                <div class="fw-bold small text-zinc-green">Made for everyday living</div>
+                <div class="text-muted" style="font-size: 0.75rem;">Natural materials, considered design</div>
               </div>
             </div>
           </div>
@@ -140,14 +140,14 @@
     <div class="container-fluid px-lg-5">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 pb-2 border-bottom border-zinc-subtle">
         <div>
-          <div class="meta-label text-zinc-green">ARCHITECTURAL REPOSITORY</div>
-          <h2 class="display-6 fw-bold font-display text-zinc-dark m-0">The Zinc Archive</h2>
+          <div class="meta-label text-zinc-green">THE VÉRIDIAN COLLECTION</div>
+          <h2 class="display-6 fw-bold font-display text-zinc-dark m-0">Objects for a greener home</h2>
         </div>
         
         <!-- Controls: Filters & Sort -->
         <div class="d-flex flex-wrap align-items-center gap-2 mt-3 mt-md-0">
           <div class="btn-group btn-group-sm" role="group" aria-label="Category filter">
-            <button type="button" class="btn btn-zinc-filter active" data-filter="all">All Objects</button>
+            <button type="button" class="btn btn-zinc-filter active" data-filter="all">All products</button>
             <button type="button" class="btn btn-zinc-filter" data-filter="planters">Planters</button>
             <button type="button" class="btn btn-zinc-filter" data-filter="lighting">Lighting</button>
             <button type="button" class="btn btn-zinc-filter" data-filter="botanicals">Botanicals</button>
@@ -163,7 +163,8 @@
         </div>
       </div>
 
-      <!-- Dynamic Product Grid -->
+      <div id="storeNotice" class="alert d-none mb-4" role="status" aria-live="polite"></div>
+      <!-- Products are loaded from the NestJS API when it is running. -->
       <div id="productGrid" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
         <!-- Injected via app.js -->
       </div>
@@ -177,22 +178,22 @@
         <div class="col-lg-5">
           <div class="meta-label text-zinc-green">MATERIAL PROVENANCE</div>
           <h2 class="display-6 fw-bold font-display text-zinc-dark mb-4 text-balance">
-            Forged with Purpose. Patinated by Nature.
+            Made with care. Inspired by nature.
           </h2>
           <p class="text-secondary leading-relaxed mb-4">
-            Unlike mass-produced painted plastics, our pieces are cast from high-density zinc-aluminum alloys. Each piece undergoes a proprietary 14-day chemical oxidation cycle using botanical moss vinegar and copper sulfate, producing unique deep emerald and sage verdigris tones.
+            We choose durable materials, useful shapes, and timeless finishes. Each piece is made to feel at home among the plants, books, and everyday objects you already love.
           </p>
           <div class="row g-3">
             <div class="col-sm-6">
               <div class="p-3 bg-zinc-50 border border-zinc-subtle rounded-2">
-                <div class="fw-bold text-zinc-dark mb-1">Self-Healing Surface</div>
-                <div class="small text-secondary">The natural zinc carbonate patina dynamically protects against corrosion over decades.</div>
+                <div class="fw-bold text-zinc-dark mb-1">Made to last</div>
+                <div class="small text-secondary">Durable finishes bring character to pieces you can enjoy for years.</div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="p-3 bg-zinc-50 border border-zinc-subtle rounded-2">
-                <div class="fw-bold text-zinc-dark mb-1">Heavy Thermal Mass</div>
-                <div class="small text-secondary">Stabilizes plant root temperatures against harsh indoor dry air fluctuations.</div>
+                <div class="fw-bold text-zinc-dark mb-1">Thoughtful details</div>
+                <div class="small text-secondary">Practical design makes caring for your plants a little easier.</div>
               </div>
             </div>
           </div>
@@ -243,8 +244,8 @@
         <!-- Review Summary & Form Trigger -->
         <div class="col-lg-4">
           <div class="sticky-top" style="top: 100px;">
-            <div class="meta-label text-zinc-green">PATRON VOICES</div>
-            <h2 class="display-6 fw-bold font-display text-zinc-dark mb-3">Verified Impressions</h2>
+            <div class="meta-label text-zinc-green">KIND WORDS</div>
+            <h2 class="display-6 fw-bold font-display text-zinc-dark mb-3">What customers say</h2>
             <div class="d-flex align-items-baseline gap-3 mb-3">
               <span class="display-4 fw-bold font-display text-zinc-green tabular-nums">4.9</span>
               <div>
@@ -259,13 +260,13 @@
               </div>
             </div>
             <p class="text-secondary small mb-4">
-              Real testimonials from collectors, architects, and botanical enthusiasts who live with VÉRIDIAN objects.
+              Notes from people who have made VÉRIDIAN part of their home.
             </p>
 
             <!-- Add Review Card / Button -->
             <div class="card p-3 border-zinc-subtle bg-white rounded-3 shadow-sm">
-              <h6 class="fw-bold text-zinc-dark mb-2">Share Your Experience</h6>
-              <p class="text-secondary small mb-3">Have you added our zinc pieces to your space? Let fellow collectors know.</p>
+              <h6 class="fw-bold text-zinc-dark mb-2">Share your experience</h6>
+              <p class="text-secondary small mb-3">Tell us how your new piece fits into your home.</p>
               <button class="btn btn-outline-zinc w-100" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
                 Write a Review
               </button>
@@ -391,7 +392,7 @@
         </div>
 
         <div class="d-grid gap-2">
-          <button id="proceedCheckoutBtn" class="btn btn-zinc-dark py-2 fw-semibold" data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#checkoutModal">
+          <button id="proceedCheckoutBtn" class="btn btn-zinc-dark py-2 fw-semibold">
             Proceed to Checkout
           </button>
           <button class="btn btn-sm btn-link text-danger text-decoration-none" id="clearCartBtn">
@@ -407,12 +408,13 @@
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content modal-content-atelier">
         <div class="modal-header border-bottom border-zinc-subtle py-3">
-          <h5 class="modal-title font-display fw-bold text-zinc-dark" id="checkoutModalLabel">Secure Checkout</h5>
+          <h5 class="modal-title font-display fw-bold text-zinc-dark" id="checkoutModalLabel">Checkout</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-4">
           <div id="checkoutFormWrapper">
             <form id="checkoutForm">
+              <div id="checkoutError" class="alert alert-danger d-none" role="alert"></div>
               <div class="row g-4">
                 <!-- Left: Customer & Delivery Info -->
                 <div class="col-lg-7">
@@ -420,38 +422,38 @@
                   <div class="row g-2 mb-3">
                     <div class="col-sm-6">
                       <label class="form-label small text-secondary">First Name</label>
-                      <input type="text" class="form-control form-control-sm" required placeholder="Elena">
+                      <input type="text" name="firstName" class="form-control form-control-sm" required placeholder="Elena">
                     </div>
                     <div class="col-sm-6">
                       <label class="form-label small text-secondary">Last Name</label>
-                      <input type="text" class="form-control form-control-sm" required placeholder="Rostova">
+                      <input type="text" name="lastName" class="form-control form-control-sm" required placeholder="Rostova">
                     </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label small text-secondary">Email Address (Order Confirmation)</label>
-                    <input type="email" class="form-control form-control-sm" id="checkoutEmail" required placeholder="elena@example.com">
+                    <input type="email" name="email" class="form-control form-control-sm" id="checkoutEmail" required placeholder="elena@example.com">
                   </div>
                   <div class="mb-3">
                     <label class="form-label small text-secondary">Street Address</label>
-                    <input type="text" class="form-control form-control-sm" required placeholder="42 Belvedere Way, Apt 4B">
+                    <input type="text" name="address" class="form-control form-control-sm" required placeholder="42 Belvedere Way, Apt 4B">
                   </div>
                   <div class="row g-2 mb-3">
                     <div class="col-sm-5">
                       <label class="form-label small text-secondary">City</label>
-                      <input type="text" class="form-control form-control-sm" required placeholder="San Francisco">
+                      <input type="text" name="city" class="form-control form-control-sm" required placeholder="San Francisco">
                     </div>
                     <div class="col-sm-4">
                       <label class="form-label small text-secondary">Postal Code</label>
-                      <input type="text" class="form-control form-control-sm" required placeholder="94107">
+                      <input type="text" name="postalCode" class="form-control form-control-sm" required placeholder="94107">
                     </div>
                     <div class="col-sm-3">
                       <label class="form-label small text-secondary">Country</label>
-                      <select class="form-select form-select-sm">
-                        <option>USA</option>
-                        <option>UK</option>
-                        <option>Germany</option>
-                        <option>Japan</option>
-                        <option>Canada</option>
+                      <select class="form-select form-select-sm" name="country" required>
+                        <option value="USA">USA</option>
+                        <option value="UK">UK</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Canada">Canada</option>
                       </select>
                     </div>
                   </div>
@@ -461,7 +463,7 @@
                     <label class="p-3 border rounded-2 d-flex align-items-center justify-content-between cursor-pointer payment-option selected">
                       <div class="d-flex align-items-center gap-2">
                         <input class="form-check-input mt-0" type="radio" name="paymentMethod" value="card" checked>
-                        <span class="small fw-semibold">Credit / Debit Card</span>
+                        <span class="small fw-semibold">Card (demo only)</span>
                       </div>
                       <i class="bi bi-credit-card fs-5 text-secondary"></i>
                     </label>
@@ -481,21 +483,8 @@
                     </label>
                   </div>
 
-                  <div id="cardFields" class="p-3 bg-zinc-50 border rounded-2 mb-3">
-                    <div class="mb-2">
-                      <label class="form-label small text-secondary">Card Number</label>
-                      <input type="text" class="form-control form-control-sm" placeholder="4532 •••• •••• 8821">
-                    </div>
-                    <div class="row g-2">
-                      <div class="col-6">
-                        <label class="form-label small text-secondary">Expiry</label>
-                        <input type="text" class="form-control form-control-sm" placeholder="08/28">
-                      </div>
-                      <div class="col-6">
-                        <label class="form-label small text-secondary">CVC</label>
-                        <input type="text" class="form-control form-control-sm" placeholder="942">
-                      </div>
-                    </div>
+                  <div class="alert alert-info small mb-3">
+                    Demo checkout only. No payment is collected or processed.
                   </div>
                 </div>
 
@@ -526,7 +515,7 @@
                       Complete Order
                     </button>
                     <div class="text-center mt-2 small text-secondary" style="font-size: 0.75rem;">
-                      <i class="bi bi-shield-lock"></i> 256-bit End-to-End Encryption
+                      Demo order — payment is not processed
                     </div>
                   </div>
                 </div>
@@ -537,14 +526,14 @@
           <!-- Post-Checkout Order Success Screen -->
           <div id="orderSuccessScreen" class="d-none text-center py-4">
             <div class="display-4 text-success mb-3"><i class="bi bi-check-circle-fill"></i></div>
-            <h3 class="font-display fw-bold text-zinc-dark mb-2">Order Confirmed</h3>
+            <h3 class="font-display fw-bold text-zinc-dark mb-2">Order Saved</h3>
             <p class="text-secondary mb-4">
-              Thank you for your patronage. Your atelier order has been received and scheduled for artisan packaging.
+              Your demo order has been saved. No payment was processed and no email was sent.
             </p>
             <div class="p-3 bg-zinc-50 border rounded-2 d-inline-block text-start mb-4">
-              <div class="small"><strong>Order Number:</strong> <span id="confirmedOrderId">#VER-89421</span></div>
-              <div class="small"><strong>Estimated Courier Dispatch:</strong> 2 Business Days</div>
-              <div class="small"><strong>Receipt Dispatched to:</strong> <span id="confirmedEmail">client@veridian.com</span></div>
+              <div class="small"><strong>Order ID:</strong> <span id="confirmedOrderId">#VER-89421</span></div>
+              <div class="small"><strong>Status:</strong> Pending</div>
+              <div class="small"><strong>Order email:</strong> <span id="confirmedEmail">client@veridian.com</span></div>
             </div>
             <div>
               <button class="btn btn-zinc-dark px-4" data-bs-dismiss="modal">
@@ -573,6 +562,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-4">
+          <div class="alert alert-info small" role="note">
+            This is a demo account form. Account details are saved only in this browser.
+          </div>
           <div class="tab-content" id="authTabContent">
             <!-- Login Form -->
             <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
@@ -583,7 +575,7 @@
                 </div>
                 <div class="mb-3">
                   <label class="form-label small text-secondary">Password</label>
-                  <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required value="atelier2026">
+                  <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <div class="form-check">
@@ -634,6 +626,7 @@
         </div>
         <div class="modal-body p-4">
           <form id="reviewForm">
+            <div id="reviewError" class="alert alert-danger d-none" role="alert"></div>
             <div class="mb-3">
               <label class="form-label small text-secondary">Your Name & City</label>
               <input type="text" id="reviewAuthor" class="form-control" placeholder="e.g. David Cole, Stockholm" required>

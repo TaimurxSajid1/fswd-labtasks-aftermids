@@ -127,6 +127,7 @@ const STORE_DATA = {
 };
 
 // Global Store State
+const API_BASE_URL = window.STORE_API_URL || 'http://localhost:3000/api';
 let cart = JSON.parse(localStorage.getItem('veridian_cart') || '[]');
 let activeFilter = 'all';
 let activeSort = 'featured';
@@ -134,13 +135,74 @@ let appliedCoupon = null;
 let currentUser = JSON.parse(localStorage.getItem('veridian_user') || 'null');
 
 // DOM Elements
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  setupEventListeners();
+  await loadStoreData();
+  cart = cart
+    .map(item => {
+      const product = STORE_DATA.products.find(p => p.id === item.product.id);
+      return product ? { product, quantity: item.quantity } : null;
+    })
+    .filter(Boolean);
   renderProducts();
   renderReviews();
   updateCartUI();
   updateAuthUI();
-  setupEventListeners();
 });
+
+async function loadStoreData() {
+  try {
+    const [products, reviews] = await Promise.all([
+      apiRequest('/products'),
+      apiRequest('/reviews')
+    ]);
+    STORE_DATA.products = products;
+    STORE_DATA.reviews = reviews;
+  } catch (error) {
+    showNotice('The store API is offline. Sample products are shown; start the NestJS server to submit reviews and orders.', 'warning');
+    console.error('Could not load store data:', error);
+  }
+}
+
+async function apiRequest(path, options = {}) {
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+      }
+    });
+  } catch {
+    throw new Error(`Cannot connect to ${API_BASE_URL}. Check that the NestJS server is running.`);
+  }
+  const body = await response.json().catch(() => null);
+  if (!response.ok) {
+    const message = Array.isArray(body?.message)
+      ? body.message.join(', ')
+      : body?.message || `Request failed (${response.status})`;
+    throw new Error(message);
+  }
+  return body;
+}
+
+function showNotice(message, type = 'danger') {
+  const notice = document.getElementById('storeNotice');
+  if (!notice) return;
+  notice.className = `alert alert-${type} mb-4`;
+  notice.textContent = message;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[character]);
+}
 
 // Helper: SVG Graphic Generator for crisp offline standalone preview
 function getProductSVG(product) {
@@ -198,14 +260,14 @@ function renderProducts() {
           <div class="card-body p-3 d-flex flex-column justify-content-between">
             <div>
               <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="meta-label text-zinc-green">${product.categoryLabel}</span>
+                <span class="meta-label text-zinc-green">${escapeHtml(product.categoryLabel)}</span>
                 <span class="small text-muted">${product.stock} in stock</span>
               </div>
               <h5 class="font-display fw-bold text-zinc-dark fs-6 mb-2 cursor-pointer" onclick="openProductModal('${product.id}')">
-                ${product.name}
+                ${escapeHtml(product.name)}
               </h5>
               <p class="text-secondary small mb-3 line-clamp-2" style="font-size: 0.82rem;">
-                ${product.description}
+                ${escapeHtml(product.description)}
               </p>
             </div>
             <div>
@@ -214,11 +276,11 @@ function renderProducts() {
                   <span class="fs-5 fw-bold font-display text-zinc-green tabular-nums">$${product.price}</span>
                   ${product.originalPrice ? `<span class="text-decoration-line-through text-muted small tabular-nums">$${product.originalPrice}</span>` : ''}
                 </div>
-                <button class="btn btn-sm btn-link text-zinc-dark p-0 text-decoration-none fw-medium" onclick="openProductModal('${product.id}')">
+                <button class="btn btn-sm btn-link text-zinc-dark p-0 text-decoration-none fw-medium" onclick="openProductModal('${escapeHtml(product.id)}')">
                   Specs & Details →
                 </button>
               </div>
-              <button class="btn btn-zinc-dark w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="addToCart('${product.id}')">
+              <button class="btn btn-zinc-dark w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="addToCart('${escapeHtml(product.id)}')">
                 <i class="bi bi-bag-plus"></i>
                 <span>Add to Bag</span>
               </button>
@@ -242,15 +304,15 @@ function renderReviews() {
         <div class="d-flex justify-content-between align-items-start mb-2">
           <div>
             <div class="d-flex align-items-center gap-2 mb-1">
-              <span class="fw-bold text-zinc-dark">${rev.author}</span>
+              <span class="fw-bold text-zinc-dark">${escapeHtml(rev.author)}</span>
               ${rev.verified ? '<span class="badge bg-zinc-50 text-zinc-green border border-zinc-subtle small py-0.5">Verified Patron</span>' : ''}
             </div>
-            <div class="small text-muted">${rev.role} · ${rev.date}</div>
+            <div class="small text-muted">${escapeHtml(rev.role)} · ${escapeHtml(rev.date)}</div>
           </div>
           <div class="fs-6">${stars}</div>
         </div>
-        <h6 class="fw-bold text-zinc-dark mt-2 mb-1">${rev.title}</h6>
-        <p class="text-secondary small m-0">${rev.comment}</p>
+        <h6 class="fw-bold text-zinc-dark mt-2 mb-1">${escapeHtml(rev.title)}</h6>
+        <p class="text-secondary small m-0">${escapeHtml(rev.comment)}</p>
         <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center small text-muted">
           <span>Was this review helpful?</span>
           <button class="btn btn-sm btn-light border py-0 px-2" onclick="this.innerHTML='✓ Helpful (' + (${rev.helpful} + 1) + ')'; this.disabled=true;">
@@ -503,6 +565,24 @@ function setupEventListeners() {
   const clearBtn = document.getElementById('clearCartBtn');
   if (clearBtn) clearBtn.addEventListener('click', clearCart);
 
+  const checkoutButton = document.getElementById('proceedCheckoutBtn');
+  if (checkoutButton) {
+    checkoutButton.addEventListener('click', () => {
+      const cartDrawer = document.getElementById('cartOffcanvas');
+      const checkoutModal = document.getElementById('checkoutModal');
+      const showCheckout = () => {
+        bootstrap.Modal.getOrCreateInstance(checkoutModal).show();
+      };
+
+      if (cartDrawer.classList.contains('show')) {
+        cartDrawer.addEventListener('hidden.bs.offcanvas', showCheckout, { once: true });
+        bootstrap.Offcanvas.getOrCreateInstance(cartDrawer).hide();
+      } else {
+        showCheckout();
+      }
+    });
+  }
+
   // Apply Coupon
   const couponBtn = document.getElementById('applyCouponBtn');
   if (couponBtn) {
@@ -525,21 +605,62 @@ function setupEventListeners() {
   // Checkout Form Submission
   const checkoutForm = document.getElementById('checkoutForm');
   if (checkoutForm) {
-    checkoutForm.addEventListener('submit', (e) => {
+    checkoutForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('checkoutEmail').value;
-      const orderId = '#VER-' + Math.floor(10000 + Math.random() * 90000);
+      const errorBox = document.getElementById('checkoutError');
+      const submitButton = checkoutForm.querySelector('[type="submit"]');
+      errorBox.classList.add('d-none');
+      if (cart.length === 0) {
+        errorBox.textContent = 'Your bag is empty. Add a product before checking out.';
+        errorBox.classList.remove('d-none');
+        return;
+      }
 
-      document.getElementById('confirmedOrderId').textContent = orderId;
-      document.getElementById('confirmedEmail').textContent = email;
+      submitButton.disabled = true;
+      submitButton.textContent = 'Submitting order...';
+      try {
+        const values = Object.fromEntries(new FormData(checkoutForm).entries());
+        const order = await apiRequest('/orders', {
+          method: 'POST',
+          body: JSON.stringify({
+            ...values,
+            items: cart.map(item => ({
+              productId: item.product.id,
+              quantity: item.quantity
+            })),
+            couponCode: appliedCoupon || undefined
+          })
+        });
 
-      document.getElementById('checkoutFormWrapper').classList.add('d-none');
-      document.getElementById('orderSuccessScreen').classList.remove('d-none');
+        document.getElementById('confirmedOrderId').textContent =
+          `#VER-${order.id.slice(0, 8).toUpperCase()}`;
+        document.getElementById('confirmedEmail').textContent = order.email;
+        document.getElementById('checkoutFormWrapper').classList.add('d-none');
+        document.getElementById('orderSuccessScreen').classList.remove('d-none');
+        cart.forEach(item => {
+          item.product.stock = Math.max(0, item.product.stock - item.quantity);
+        });
+        cart = [];
+        saveCart();
+        renderProducts();
+        updateCartUI();
+      } catch (error) {
+        errorBox.textContent = `We couldn't place your order: ${error.message}`;
+        errorBox.classList.remove('d-none');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Complete Order';
+      }
+    });
+  }
 
-      // Clear cart
-      cart = [];
-      saveCart();
-      updateCartUI();
+  const checkoutModal = document.getElementById('checkoutModal');
+  if (checkoutModal) {
+    checkoutModal.addEventListener('hidden.bs.modal', () => {
+      document.getElementById('checkoutFormWrapper').classList.remove('d-none');
+      document.getElementById('orderSuccessScreen').classList.add('d-none');
+      document.getElementById('checkoutError').classList.add('d-none');
+      checkoutForm.reset();
     });
   }
 
@@ -553,7 +674,7 @@ function setupEventListeners() {
       localStorage.setItem('veridian_user', JSON.stringify(currentUser));
       updateAuthUI();
       bootstrap.Modal.getInstance(document.getElementById('authModal')).hide();
-      alert('Welcome back, ' + currentUser.name + '. Authenticated as Atelier Patron.');
+      alert('Signed in locally as ' + currentUser.name + '. This demo profile is stored only in this browser.');
     });
   }
 
@@ -568,36 +689,39 @@ function setupEventListeners() {
       localStorage.setItem('veridian_user', JSON.stringify(currentUser));
       updateAuthUI();
       bootstrap.Modal.getInstance(document.getElementById('authModal')).hide();
-      alert('Welcome to VÉRIDIAN Atelier, ' + name + '! Your patron account is active.');
+      alert('Welcome to VÉRIDIAN, ' + name + '! Your demo profile is saved only in this browser.');
     });
   }
 
   // Review Form Submission
   const reviewForm = document.getElementById('reviewForm');
   if (reviewForm) {
-    reviewForm.addEventListener('submit', (e) => {
+    reviewForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const author = document.getElementById('reviewAuthor').value;
-      const rating = parseInt(document.getElementById('reviewRating').value);
-      const title = document.getElementById('reviewTitle').value;
-      const comment = document.getElementById('reviewComment').value;
-
-      STORE_DATA.reviews.unshift({
-        id: 'rev-' + Date.now(),
-        author,
-        role: 'Verified Patron',
-        rating,
-        date: 'Today',
-        verified: true,
-        title,
-        comment,
-        helpful: 1
-      });
-
-      renderReviews();
-      bootstrap.Modal.getInstance(document.getElementById('writeReviewModal')).hide();
-      reviewForm.reset();
-      alert('Thank you! Your patron review has been verified and published.');
+      const errorBox = document.getElementById('reviewError');
+      const submitButton = reviewForm.querySelector('[type="submit"]');
+      errorBox.classList.add('d-none');
+      submitButton.disabled = true;
+      try {
+        const review = await apiRequest('/reviews', {
+          method: 'POST',
+          body: JSON.stringify({
+            author: document.getElementById('reviewAuthor').value,
+            rating: Number(document.getElementById('reviewRating').value),
+            title: document.getElementById('reviewTitle').value,
+            comment: document.getElementById('reviewComment').value
+          })
+        });
+        STORE_DATA.reviews.unshift(review);
+        renderReviews();
+        bootstrap.Modal.getInstance(document.getElementById('writeReviewModal')).hide();
+        reviewForm.reset();
+      } catch (error) {
+        errorBox.textContent = `We couldn't submit your review: ${error.message}`;
+        errorBox.classList.remove('d-none');
+      } finally {
+        submitButton.disabled = false;
+      }
     });
   }
 }

@@ -1,38 +1,50 @@
-# VÉRIDIAN // Zinc Atelier
-## Architectural Biophilic E-Commerce Store
+# VÉRIDIAN Store
+## English-language storefront with a NestJS API
 
-Built with **HTML5, CSS3, and Bootstrap 5.3.3**.
-High-contrast visual styling featuring deep **zinc-green** and pure **white** tones.
+The storefront uses **HTML, CSS, JavaScript, and Bootstrap 5**. Its API is built with **NestJS, TypeORM, and SQLite**. The store interface and messages are in English.
 
 ---
 
 ### Folder Structure
 ```
-├── index.html        # Main semantic e-commerce layout
-├── style.css         # Custom zinc-green & white contrast styling
-├── app.js            # Pure JavaScript store & cart engine
-└── README.md         # Instructions for Visual Studio Code
+├── index.html        # Storefront and English-language checkout/review forms
+├── style.css         # Storefront styling
+├── app.js            # Cart and API-connected browser logic
+├── server/           # NestJS API
+│   └── src/
+│       ├── products/ # Product entity, controller, service, and module
+│       ├── reviews/  # Review entity, DTO, controller, and service
+│       └── orders/   # Order/order-item entities, DTO, controller, and service
+└── README.md
 ```
 
 ---
 
-### Features Included
-1. **Signup & Login**: Patron authentication modal with state persistence in `localStorage`.
-2. **Top Bar / Navbar**: 3-zone contract with brand wordmark, clean links, cart badge, and account trigger.
-3. **Hero Section**: Architectural visual showcase with typography balance and quantitative metrics.
-4. **Product Listing**: Dynamic filtering (Planters, Lighting, Botanicals, Vessels) and price/rating sorting.
-5. **Add to Cart**: 1-click cart dispatch with animated badge count.
-6. **Display Cart**: Slide-out offcanvas drawer with itemized list and pricing summary.
-7. **Edit Cart**: Real-time quantity steppers (+/-), item removal, and promo code support (`ZINC15`).
-8. **Checkout**: Multi-step checkout modal supporting Card, COD, and Bank Transfer with order confirmation receipt.
-9. **Patron Reviews**: Star ratings, verified badges, and an interactive review submission form.
+### Run the API
+Install [Node.js 20 or later](https://nodejs.org/) and run these commands from the `server` folder:
+
+```bash
+npm install
+npm run start:dev
+```
+
+The API starts at `http://localhost:3000/api`. It creates a local `store.sqlite` database and seeds sample products and reviews on first launch. Set `PORT`, `DB_PATH`, or `CORS_ORIGIN` to change the defaults. TypeORM schema synchronization is enabled for local development; configure migrations before using this project in production.
+
+### API routes
+- `GET /api/products` and `GET /api/products/:id`
+- `GET /api/reviews` and `POST /api/reviews`
+- `POST /api/orders`
+
+Review and order request bodies are validated. Creating an order checks stock and calculates prices, discount, shipping, and total on the server in a database transaction. The accepted promo code is `ZINC15`.
+
+### Run the storefront
+Open `index.html` with the VS Code **Live Server** extension. The browser requests products and reviews from the NestJS API. If the API is offline, sample products remain visible; order and review submissions show an error instead of pretending they succeeded. Set `window.STORE_API_URL` before loading `app.js` to use a different API URL.
+
+### Demo limitations
+- Checkout records a pending order only. It does **not** process payments or collect card details.
+- Account sign-in and signup remain browser-only demonstrations using `localStorage`; they are not connected to the API.
+- The default SQLite synchronization setting is for development only.
 
 ---
 
-### How to Open & Run in Visual Studio Code
-1. Extract or save the files into a single project folder on your computer.
-2. Launch **Visual Studio Code**.
-3. Click **File > Open Folder...** and select the folder.
-4. To view the website live:
-   - **Option A (Recommended)**: Install the **Live Server** extension (by Ritwick Dey) in VS Code, right-click `index.html`, and select **"Open with Live Server"**.
-   - **Option B**: Double-click `index.html` directly in your file explorer to open it in your web browser.
+All storefront copy, product categories, form labels, and API validation messages use English.

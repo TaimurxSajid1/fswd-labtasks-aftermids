@@ -303,3 +303,163 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .hover-white:hover {
   color: var(--white) !important;
 }
+
+/* Warm, botanical storefront refresh */
+:root {
+  --zg-900: #17352b;
+  --zg-800: #21483a;
+  --zg-700: #315d49;
+  --zg-600: #47765d;
+  --zg-500: #5d8a6c;
+  --zg-400: #7a9c7d;
+  --zg-300: #9ab59a;
+  --zg-mint: #d7e5b3;
+  --zg-mint-dark: #c5d89a;
+  --canvas: #f7f6f0;
+  --surface-border: rgba(31, 62, 48, 0.13);
+}
+
+body {
+  background: var(--canvas);
+  color: #23332a;
+}
+
+.announcement-bar {
+  background: #19382d;
+  padding-block: 0.65rem !important;
+}
+
+.navbar.sticky-top {
+  box-shadow: 0 5px 24px rgba(23, 53, 43, 0.06);
+}
+
+.navbar-brand {
+  letter-spacing: 0.04em;
+}
+
+.nav-link {
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--zg-600) !important;
+}
+
+.hero-section {
+  background:
+    radial-gradient(ellipse at 86% 22%, rgba(128, 163, 117, 0.25), transparent 34%),
+    linear-gradient(125deg, #17352b 0%, #21483a 66%, #315d49 100%);
+  border: 0;
+}
+
+.hero-headline {
+  max-width: 13ch;
+  font-size: clamp(3rem, 6vw, 5.2rem);
+  letter-spacing: -0.055em;
+}
+
+.hero-image-frame {
+  border-radius: 1.25rem !important;
+  background: #f2f1e8 !important;
+  transform: rotate(1deg);
+  transition: transform 0.3s ease;
+}
+
+.hero-image-frame:hover {
+  transform: rotate(0);
+}
+
+.hero-image-frame svg {
+  border-radius: 0.8rem;
+}
+
+#collection,
+#reviews {
+  scroll-margin-top: 5rem;
+}
+
+.meta-label {
+  letter-spacing: 0.15em;
+}
+
+.btn {
+  border-radius: 0.65rem;
+}
+
+.btn-zinc-dark {
+  background: #21483a;
+  border-color: #21483a;
+}
+
+.btn-zinc-dark:hover,
+.btn-zinc-dark:focus {
+  background: #17352b;
+  border-color: #17352b;
+}
+
+.btn-zinc-mint {
+  color: #17352b !important;
+}
+
+.btn-zinc-filter {
+  border-radius: 999px !important;
+  padding-inline: 1rem;
+}
+
+.card-product {
+  border: 1px solid rgba(31, 62, 48, 0.09);
+  border-radius: 1rem;
+}
+
+.card-product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 44px -20px rgba(23, 53, 43, 0.28);
+}
+
+.product-img-frame {
+  aspect-ratio: 1.1;
+  background: #eeeee5;
+}
+
+.product-img-frame svg {
+  padding: 1rem;
+}
+
+.review-card {
+  border-radius: 1rem;
+  padding: 1.75rem;
+}
+
+.modal-content-atelier,
+.offcanvas-cart {
+  border-radius: 1rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 0.55rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #7a9c7d;
+  box-shadow: 0 0 0 0.2rem rgba(122, 156, 125, 0.18);
+}
+
+#storeNotice {
+  border-radius: 0.8rem;
+}
+
+@media (max-width: 575.98px) {
+  .hero-headline {
+    font-size: clamp(2.7rem, 13vw, 4rem);
+  }
+
+  .hero-section .row.align-items-center {
+    gap: 2rem !important;
+  }
+
+  .review-card {
+    padding: 1.25rem;
+  }
+}
